@@ -1,5 +1,5 @@
 //
-export const toRna = (dnaSequqnce) => {
+export const toRna = (dnaSequence) => {
   const dnaToRna = {
     G: 'C',
     C: 'G',
@@ -7,7 +7,7 @@ export const toRna = (dnaSequqnce) => {
     A: 'U',
   };
 
-  const rna = dnaSequqnce.split('').map((char) => {
+  const rna = dnaSequence.split('').map((char) => {
     if (dnaToRna[char] === undefined) {
       throw new Error('Invalid input DNA.');
     }
