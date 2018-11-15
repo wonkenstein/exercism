@@ -2,36 +2,31 @@
 export const decode = (sequence) => {
 // const decode = (sequence) => {
   let count = '';
-  let currentChar = '';
-  let decodedSequence =  [];
+  // let currentChar = '';
+  const decodedSequence = [];
   sequence.split('').forEach((char) => {
     if (char === '') {
       decodedSequence.push(['', 1]);
-    } else if (isNaN(parseInt(char))) {
-      currentChar = char;
-
+    } else if (Number.isNaN(parseInt(char, 10))) {
       if (count === '') {
         decodedSequence.push([char, 1]);
+      } else {
+        decodedSequence.push([char, parseInt(count, 10)]);
       }
-      else {
-        decodedSequence.push([char, parseInt(count)]);
-      }
-
       count = '';
-    }
-    else {
+    } else {
       count += char;
     }
   });
 
   // console.log(decodedSequence);
   const decoded = decodedSequence.map((item) => {
-    let s = ''
-    for (let i=0; i<item[1]; i++) {
+    let s = '';
+    for (let i = 0; i < item[1]; i += 1) {
       s += item[0];
     }
     return s;
-  })
+  });
 
   return decoded.join('');
   // console.log(decodedSequence);
