@@ -1,25 +1,24 @@
 //
+// split sequence into chunks [[charA, count], [charB, count]]
 export const decode = (sequence) => {
-// const decode = (sequence) => {
-  let count = '';
-  // let currentChar = '';
   const decodedSequence = [];
+  let count = '';
   sequence.split('').forEach((char) => {
-    if (char === '') {
-      decodedSequence.push(['', 1]);
-    } else if (Number.isNaN(parseInt(char, 10))) {
+    if (Number.isNaN(parseInt(char, 10))) {
       if (count === '') {
+        // default count of 1
         decodedSequence.push([char, 1]);
       } else {
+        // next character in sequence
         decodedSequence.push([char, parseInt(count, 10)]);
+        count = '';
       }
-      count = '';
     } else {
+      // store the count
       count += char;
     }
   });
 
-  // console.log(decodedSequence);
   const decoded = decodedSequence.map((item) => {
     let s = '';
     for (let i = 0; i < item[1]; i += 1) {
@@ -29,28 +28,26 @@ export const decode = (sequence) => {
   });
 
   return decoded.join('');
-  // console.log(decodedSequence);
 };
 
 
-// console.log(decode('XYZ'));
-// console.log(decode('2A3B4C'));
-
+// split sequence into chunks [[charA, count], [charB, count]]
 export const encode = (sequence) => {
   const encodedSequence = [];
   let currentChar = '';
   let index;
   sequence.split('').forEach((char) => {
-    if (char === '') {
-      encodedSequence.push(['', 1]);
-    } else if (currentChar === char) {
+    if (currentChar === char) {
+      // store the count
       encodedSequence[index][1] += 1;
     } else {
+      // next character in sequence
       encodedSequence.push([char, 1]);
       currentChar = char;
       index = encodedSequence.length - 1;
     }
   });
+
 
   const encoded = encodedSequence.map((item) => {
     if (item[1] > 1) {
