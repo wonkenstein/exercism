@@ -2,7 +2,7 @@
 import { Cipher } from './simple-cipher';
 
 describe('Random key generation', () => {
-  xtest('generates keys at random', () => {
+  test('generates keys at random', () => {
     // Strictly speaking, this is difficult to test with 100% certainty.
     // But, if you have a generator that generates 100-character-long
     // strings of lowercase letters at random, the odds of two consecutively
@@ -13,12 +13,12 @@ describe('Random key generation', () => {
 
 describe('Random key cipher', () => {
   const cipher = new Cipher();
-
+  console.log(cipher.key)
   test('has a key made of letters', () => {
     expect(cipher.key).toMatch(/^[a-z]+$/);
   });
 
-  xtest('has a key that is at least 100 characters long', () => {
+  test('has a key that is at least 100 characters long', () => {
     expect(cipher.key.length).toBeGreaterThanOrEqual(100);
   });
 
@@ -40,43 +40,43 @@ describe('Random key cipher', () => {
 });
 
 describe('Incorrect key cipher', () => {
-  xtest('throws an error with an all caps key', () => {
+  test('throws an error with an all caps key', () => {
     expect(() => {
       new Cipher('ABCDEF');
     }).toThrow(new Error('Bad key'));
   });
 
-  xtest('throws an error with a mixed-case key', () => {
+  test('throws an error with a mixed-case key', () => {
     expect(() => {
       new Cipher('ABcdEF');
     }).toThrow(new Error('Bad key'));
   });
 
-  xtest('throws an error with a numeric key', () => {
+  test('throws an error with a numeric key', () => {
     expect(() => {
       new Cipher('12345');
     }).toThrow(new Error('Bad key'));
   });
 
-  xtest('throws an error with an empty key', () => {
+  test('throws an error with an empty key', () => {
     expect(() => {
       new Cipher('');
     }).toThrow(new Error('Bad key'));
   });
 
-  xtest('throws an error with a leading space', () => {
+  test('throws an error with a leading space', () => {
     expect(() => {
       new Cipher(' leadingspace');
     }).toThrow(new Error('Bad key'));
   });
 
-  xtest('throws an error with a punctuation mark', () => {
+  test('throws an error with a punctuation mark', () => {
     expect(() => {
       new Cipher('hyphened-word');
     }).toThrow(new Error('Bad key'));
   });
 
-  xtest('throws an error with a single capital letter', () => {
+  test('throws an error with a single capital letter', () => {
     expect(() => {
       new Cipher('leonardoDavinci');
     }).toThrow(new Error('Bad key'));
@@ -87,7 +87,7 @@ describe('Substitution cipher', () => {
   const key = 'abcdefghij';
   const cipher = new Cipher(key);
 
-  xtest('keeps the submitted key', () => {
+  test('keeps the submitted key', () => {
     expect(cipher.key).toEqual(key);
   });
 
