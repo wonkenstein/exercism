@@ -2,7 +2,7 @@
 import { Cipher } from './simple-cipher';
 
 describe('Random key generation', () => {
-  test('generates keys at random', () => {
+  xtest('generates keys at random', () => {
     // Strictly speaking, this is difficult to test with 100% certainty.
     // But, if you have a generator that generates 100-character-long
     // strings of lowercase letters at random, the odds of two consecutively
@@ -13,7 +13,6 @@ describe('Random key generation', () => {
 
 describe('Random key cipher', () => {
   const cipher = new Cipher();
-  console.log(cipher.key)
   test('has a key made of letters', () => {
     expect(cipher.key).toMatch(/^[a-z]+$/);
   });
@@ -25,15 +24,15 @@ describe('Random key cipher', () => {
   // Here we take advantage of the fact that plaintext of "aaa..."
   // outputs the key. This is a critical problem with shift ciphers, some
   // characters will always output the key verbatim.
-  xtest('can encode', () => {
+  test('can encode', () => { // ok
     expect(cipher.encode('aaaaaaaaaa')).toEqual(cipher.key.substr(0, 10));
   });
 
-  xtest('can decode', () => {
+  test('can decode', () => {
     expect(cipher.decode(cipher.key.substr(0, 10))).toEqual('aaaaaaaaaa');
   });
 
-  xtest('is reversible', () => {
+  test('is reversible', () => {
     const plaintext = 'abcdefghij';
     expect(cipher.decode(cipher.encode(plaintext))).toEqual(plaintext);
   });
@@ -91,28 +90,28 @@ describe('Substitution cipher', () => {
     expect(cipher.key).toEqual(key);
   });
 
-  xtest('can encode', () => {
+  test('can encode', () => { // ok
     expect(cipher.encode('aaaaaaaaaa')).toEqual('abcdefghij');
   });
 
-  xtest('can decode', () => {
+  test('can decode', () => {
     expect(cipher.decode('abcdefghij')).toEqual('aaaaaaaaaa');
   });
 
-  xtest('is reversible', () => {
+  test('is reversible', () => {
     expect(cipher.decode(cipher.encode('abcdefghij'))).toEqual('abcdefghij');
   });
 
-  xtest(': double shift encode', () => {
+  test(': double shift encode', () => { // ok
     expect(new Cipher('iamapandabear').encode('iamapandabear'))
       .toEqual('qayaeaagaciai');
   });
 
-  xtest('can wrap on encode', () => {
+  test('can wrap on encode', () => { // ok
     expect(cipher.encode('zzzzzzzzzz')).toEqual('zabcdefghi');
   });
 
-  xtest('can wrap on decode', () => {
+  test('can wrap on decode', () => {
     expect(cipher.decode('zabcdefghi')).toEqual('zzzzzzzzzz');
   });
 
