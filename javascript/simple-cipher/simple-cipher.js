@@ -1,24 +1,39 @@
 //
-// export const Cipher = () => {
-//   const generateKey = () => 'ffff';
-
-//   const key = generateKey();
-
-//   // return 'Hello, World!';
-// };
 export class Cipher {
   constructor(cipherKey) {
     this.characters = 'abcdefghijklmnopqrstuvwxyz';
     this.keyLength = 100;
 
-    if (cipherKey !== undefined) {
-      this.key = this.validateCipherKey(cipherKey);
+    if (cipherKey === undefined) {
+      this.key = this._generateKey(this.keyLength);
     } else {
-      this.key = this.generateKey(this.keyLength);
+      this.key = this._validateCipherKey(cipherKey);
     }
   }
 
-  validateCipherKey(cipherKey) {
+  encode(plain) {
+    return plain.split('').map((char, i) => {
+      const plainCharPos = this.characters.indexOf(char);
+      const keyCharPos = this._findKeyCharacterPos(i);
+
+      const encodedCharPos = this._findEncodedCharPos(plainCharPos, keyCharPos);
+
+      return this.characters[encodedCharPos];
+    }).join('');
+  }
+
+  decode(encrypted) {
+    return encrypted.split('').map((char, i) => {
+      const encodedCharPos = this.characters.indexOf(char);
+      const keyCharPos = this._findKeyCharacterPos(i);
+
+      const plainCharPos = this._findDecodedCharPos(encodedCharPos, keyCharPos);
+
+      return this.characters[plainCharPos];
+    }).join('');
+  }
+
+  _validateCipherKey(cipherKey) {
     const badKey = 'Bad key';
     if (cipherKey === '') {
       throw new Error(badKey);
@@ -33,8 +48,7 @@ export class Cipher {
     return cipherKey;
   }
 
-
-  generateKey(length) {
+  _generateKey(length) {
     const k = [];
     const random = max => Math.floor(Math.random() * Math.floor(max));
 
@@ -46,42 +60,29 @@ export class Cipher {
     return k.join('');
   }
 
-  encode(plain) {
-    return plain.split('').map((char, i) => {
-      const charPos = this.characters.indexOf(char);
-      const keyCharPos = this.characters.indexOf(this.key[i]);
-      let encodedPos = keyCharPos + charPos;
+  _findKeyCharacterPos(index) {
+    let i = index;
+    if (i > (this.key.length - 1)) {
+      i %= this.key.length;
+    }
 
-      if (encodedPos > (this.characters.length - 1)) {
-        encodedPos %= this.characters.length;
-      }
-
-      return this.characters[encodedPos];
-      // console.log('encode', char, charPos, keyChar, keyCharPos, encodedPos, encodedChar);
-      // return encodedChar;
-    }).join('');
-
-    // console.log('encode', encoded.join(''));
-    // return encoded.join('');
+    const keyCharPos = this.characters.indexOf(this.key[i]);
+    return keyCharPos;
   }
 
-  decode(encrypted) {
-    return encrypted.split('').map((char, i) => {
-      const encodedPos = this.characters.indexOf(char);
-      const keyCharPos = this.characters.indexOf(this.key[i]);
+  _findEncodedCharPos(plainCharPos, keyCharPos) {
+    let encodedCharPos = keyCharPos + plainCharPos;
+    if (encodedCharPos > (this.characters.length - 1)) {
+      encodedCharPos %= this.characters.length;
+    }
+    return encodedCharPos;
+  }
 
-      let charPos = encodedPos - keyCharPos;
-
-      // console.log('decode', shift);
-      if (charPos < 0) {
-        charPos = this.characters.length + charPos;
-      }
-
-      // const decodedChar = this.characters[charPos];
-
-      // console.log('encode', char, encodedPos, keyCharPos, charPos, decodedChar);
-      return this.characters[charPos];
-      // return this.characters[shift];
-    }).join('');
+  _findDecodedCharPos(encodedCharPos, keyCharPos) {
+    let plainCharPos = encodedCharPos - keyCharPos;
+    if (plainCharPos < 0) {
+      plainCharPos = this.characters.length + plainCharPos;
+    }
+    return plainCharPos;
   }
 }
