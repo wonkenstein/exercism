@@ -12,8 +12,7 @@ main() {
     exit 1
   fi
 
-  input=$1
-  echo "Hello, $input"
+  echo "Hello, $1"
   exit 0
 }
 
