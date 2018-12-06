@@ -12,21 +12,24 @@ export class Cipher {
   }
 
   encode(plain) {
-    return this._processString(plain, this._findEncodedCharPos)
+    return plain.split('').map((char, i) => {
+      const plainCharPos = this.characters.indexOf(char);
+      const keyCharPos = this._findKeyCharacterPos(i);
+
+      const encodedCharPos = this._findEncodedCharPos(plainCharPos, keyCharPos);
+
+      return this.characters[encodedCharPos];
+    }).join('');
   }
 
   decode(encrypted) {
-    return this._processString(plain, this._findDecodedCharPos)
-  }
-
-  _processString(str, func) {
-    return str.split('').map((char, i) => {
-      const charPos = this.characters.indexOf(char);
+    return encrypted.split('').map((char, i) => {
+      const encodedCharPos = this.characters.indexOf(char);
       const keyCharPos = this._findKeyCharacterPos(i);
 
-      const processedCharPos = func(charPos, keyCharPos);
+      const plainCharPos = this._findDecodedCharPos(encodedCharPos, keyCharPos);
 
-      return this.characters[processedCharPos];
+      return this.characters[plainCharPos];
     }).join('');
   }
 
