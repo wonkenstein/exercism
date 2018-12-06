@@ -8,22 +8,13 @@ main() {
   ratio=2
 
   if [[ $limit = 'total' ]]; then
-    # hardcoding this as arithmetic wasn't working with large numbers
-    echo '18446744073709551615'
+    # https://www.mathsisfun.com/algebra/sequences-sums-geometric.html
+    # shortcut to total the amount ((2^64)-1)
+    limit=64
+    bc <<< "($ratio^$limit) - 1"
     exit 0
   elif [[ $limit =~ $isNumber ]] && [ $limit -gt 0 ] && [ $limit -le 64 ]; then
-    squareCount=1
-    counter=1
-    total=$squareCount
-    while [ $counter -lt $limit ]
-    do
-        counter=$(($counter+1))
-        squareCount=$(($squareCount*2))
-        squareCount=${squareCount//\-/} # remove the negative sign
-        # total=$(($squareCount+$total))
-    done
-    echo $squareCount
-    # echo $total
+    bc <<< "$ratio^($limit - 1)"
     exit 0
   fi
 

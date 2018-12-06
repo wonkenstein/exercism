@@ -26,8 +26,15 @@ main() {
       let counter+=1
       # https://askubuntu.com/questions/229446/how-to-pass-results-of-bc-to-a-variable
       # use bc as 9223372036854775808 will end up -ve
-      squareCount=$(bc <<< "$squareCount*2")
-      total=$(bc <<< "$total+$squareCount")
+      # squareCount=$(bc <<< "$squareCount*2")
+      squareCount=$(($squareCount*2))
+      squareCount=${squareCount//\-/}
+      # rrr=${squareCount}
+      # ${parameter//pattern/string}
+      # echo $rrr
+      # total=$(bc <<< "$total+$squareCount")
+      total=$(($total+$squareCount))
+      echo $total
   done
 
   if [[ $mode = 'total' ]]; then
