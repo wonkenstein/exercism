@@ -61,20 +61,13 @@ export class Cipher {
   }
 
   _findKeyCharacterPos(index) {
-    let i = index;
-    if (i > (this.key.length - 1)) {
-      i %= this.key.length;
-    }
-
+    const i = index % this.key.length;
     const keyCharPos = this.characters.indexOf(this.key[i]);
     return keyCharPos;
   }
 
   _findEncodedCharPos(plainCharPos, keyCharPos) {
-    let encodedCharPos = keyCharPos + plainCharPos;
-    if (encodedCharPos > (this.characters.length - 1)) {
-      encodedCharPos %= this.characters.length;
-    }
+    const encodedCharPos = (plainCharPos + keyCharPos) % this.characters.length;
     return encodedCharPos;
   }
 
@@ -83,6 +76,7 @@ export class Cipher {
     if (plainCharPos < 0) {
       plainCharPos = this.characters.length + plainCharPos;
     }
+
     return plainCharPos;
   }
 }
