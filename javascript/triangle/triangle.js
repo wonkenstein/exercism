@@ -9,14 +9,11 @@ export class Triangle {
   }
 
   kind() {
-    const hasIllegalLength = this.hasIllegalLength();
-
-    if (hasIllegalLength !== false) {
+    if (this.hasIllegalLength() !== false) {
       throw new Error('triangle has illegal length');
     }
 
-    const isTriangle = this.isTriangle();
-    if (isTriangle !== true) {
+    if (this.isValidTriangle() !== true) {
       throw new Error('triangle is fails triangle inequality');
     }
 
@@ -49,7 +46,7 @@ export class Triangle {
     return false;
   }
 
-  isTriangle() {
+  isValidTriangle() {
     let isTriangle = true;
     if ((this.lengths[0] + this.lengths[1]) < this.lengths[2]) {
       isTriangle = false;
