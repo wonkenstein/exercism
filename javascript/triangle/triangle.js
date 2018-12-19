@@ -1,7 +1,7 @@
 //
 export class Triangle {
   constructor(length1, length2, length3) {
-    this.lengths = [
+    this.sides = [
       length1,
       length2,
       length3,
@@ -17,47 +17,29 @@ export class Triangle {
       throw new Error('triangle is fails triangle inequality');
     }
 
-    const diffLengths = this.lengths.reduce((acc, length) => {
+    const diffLengths = this.sides.reduce((acc, length) => {
       acc[length] = length;
       return acc;
     }, {});
 
-    const numberOfDiffLengths = Object.keys(diffLengths).length;
+    const numDiffLengths = Object.keys(diffLengths).length;
 
-    let typeOfTriangle = '';
-    if (numberOfDiffLengths === 1) {
-      typeOfTriangle = 'equilateral';
-    } else if (numberOfDiffLengths === 2) {
-      typeOfTriangle = 'isosceles';
-    } else if (numberOfDiffLengths === 3) {
-      typeOfTriangle = 'scalene';
-    }
+    const triangleType = {
+      1: 'equilateral',
+      2: 'isosceles',
+      3: 'scalene',
+    };
 
-    return typeOfTriangle;
+    return triangleType[numDiffLengths];
   }
 
   hasIllegalLength() {
-    const hasIllegalLength = this.lengths.filter(length => (length <= 0));
-
-    if (hasIllegalLength.length) {
-      return true;
-    }
-
-    return false;
+    return (this.sides.filter(length => (length <= 0)).length > 0);
   }
 
   isValidTriangle() {
-    let isTriangle = true;
-    if ((this.lengths[0] + this.lengths[1]) < this.lengths[2]) {
-      isTriangle = false;
-    }
-    if ((this.lengths[1] + this.lengths[2]) < this.lengths[0]) {
-      isTriangle = false;
-    }
-    if ((this.lengths[2] + this.lengths[3]) < this.lengths[1]) {
-      isTriangle = false;
-    }
-
-    return isTriangle;
+    return ((this.sides[0] + this.sides[1]) > this.sides[2])
+      && ((this.sides[1] + this.sides[2]) > this.sides[0])
+      && ((this.sides[2] + this.sides[0]) > this.sides[1]);
   }
 }
