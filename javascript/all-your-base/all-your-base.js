@@ -20,32 +20,16 @@ const unitsToValue = (units, base) => {
 };
 
 const valueToBaseUnits = (inputValue, base) => {
-  const startPower = Math.round(Math.log(inputValue) / Math.log(base));
-  // console.log('startPower', startPower);
-
-  let outputValue = inputValue;
-  // console.log('outputValue', outputValue, input);
   const output = [];
-  let i = startPower;
 
-  while (i > 0) {
-    const unit = base ** i;
-    const digit = Math.floor(outputValue / unit);
+  do {
+    const digit = (inputValue % base);
+    output.push(digit);
+    inputValue = Math.floor(inputValue / base);
+  } while (inputValue > 0);
 
-    if (!(digit === 0 && startPower === i)) {
-      output.push(digit);
-    }
-
-    outputValue -= (digit * unit);
-    i -= 1;
-  }
-
-  if (outputValue >= 0) {
-    output.push(outputValue);
-  }
-  return output;
+  return output.reverse();
 };
-
 
 export const convert = (input, inputBase, outputBase) => {
   if (isValidBase(inputBase) === false) {
