@@ -6,37 +6,36 @@ const isFirstColumn = col => (col === 0);
 const isFirstRow = row => (row === 0);
 const isLastRow = (row, input) => (row === (input.length - 1));
 
-
 const eTile = (row, col, input) => {
-  return (isLastColumn(col, input) === false) ? input[row].charAt(col + 1) : null;
+  return (!isLastColumn(col, input)) ? input[row].charAt(col + 1) : null;
 };
 
 const wTile = (row, col, input) => {
-  return (isFirstColumn(col, input) === false) ? input[row].charAt(col - 1) : null;
+  return (!isFirstColumn(col, input)) ? input[row].charAt(col - 1) : null;
 };
 
 const nTile = (row, col, input) => {
-  return (isFirstRow(row) === false) ? input[row - 1].charAt(col) : null;
+  return (!isFirstRow(row)) ? input[row - 1].charAt(col) : null;
 };
 
 const sTile = (row, col, input) => {
-  return (isLastRow(row, input) === false) ? input[row + 1].charAt(col) : null;
+  return (!isLastRow(row, input)) ? input[row + 1].charAt(col) : null;
 };
 
 const nwTile = (row, col, input) => {
-  return (isFirstColumn(col) === false && isFirstRow(row) === false) ? input[row - 1].charAt(col - 1) : null;
+  return (!isFirstColumn(col) && !isFirstRow(row)) ? input[row - 1].charAt(col - 1) : null;
 };
 
 const swTile = (row, col, input) => {
-  return (isFirstColumn(col) === false && isLastRow(row, input) === false) ? input[row + 1].charAt(col - 1) : null;
+  return (!isFirstColumn(col) && !isLastRow(row, input)) ? input[row + 1].charAt(col - 1) : null;
 };
 
 const neTile = (row, col, input) => {
-  return (isLastColumn(col, input) === false && isFirstRow(row) === false) ? input[row - 1].charAt(col + 1) : null;
+  return (!isLastColumn(col, input) && !isFirstRow(row)) ? input[row - 1].charAt(col + 1) : null;
 };
 
 const seTile = (row, col, input) => {
-  return (isLastColumn(col, input) === false && isLastRow(row, input) === false) ? input[row + 1].charAt(col + 1) : null;
+  return (!isLastColumn(col, input) && !isLastRow(row, input)) ? input[row + 1].charAt(col + 1) : null;
 };
 
 const isMine = value => value === '*';
@@ -54,10 +53,7 @@ const touchesNumberOfMines = (row, col, input) => {
   ];
 
   const numMines = grid.reduce((acc, tile) => {
-    if (isMine(tile)) {
-      acc++;
-    }
-    return acc;
+    return (isMine(tile)) ? (acc + 1) : acc;
   }, 0);
 
   return (numMines > 0) ? numMines : ' ';
