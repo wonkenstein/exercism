@@ -1,6 +1,4 @@
 
-const isEmptySpace = tile => (tile === ' ');
-
 const isLastColumn = (col, input) => (col === (input[0].length - 1));
 const isFirstColumn = col => (col === 0);
 const isFirstRow = row => (row === 0);
@@ -40,7 +38,11 @@ const seTile = (row, col, input) => {
 
 const isMine = value => value === '*';
 
-const touchesNumberOfMines = (row, col, input) => {
+const numberOfMines = (value, row, col, input) => {
+  if (isMine(value)) {
+    return value;
+  }
+
   const grid = [
     eTile(row, col, input),
     wTile(row, col, input),
@@ -57,13 +59,6 @@ const touchesNumberOfMines = (row, col, input) => {
   }, 0);
 
   return (numMines > 0) ? numMines : ' ';
-};
-
-const numberOfMines = (value, i, j, input) => {
-  if (isEmptySpace(value) === true) {
-    return touchesNumberOfMines(i, j, input);
-  }
-  return value;
 };
 
 export const annotate = (input) => {
