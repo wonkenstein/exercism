@@ -8,84 +8,71 @@ const isLastRow = (row, input) => (row === (input.length - 1));
 
 
 const eTile = (row, col, input) => {
-  if (isLastColumn(col, input) === false) {
-    return input[row].charAt(col + 1);
-  }
+  return (isLastColumn(col, input) === false) ? input[row].charAt(col + 1) : null;
 };
 
 const wTile = (row, col, input) => {
-  if (isFirstColumn(col, input) === false) {
-    return input[row].charAt(col - 1);
-  }
+  return (isFirstColumn(col, input) === false) ? input[row].charAt(col - 1) : null;
 };
 
 const nTile = (row, col, input) => {
-  if (isFirstRow(row) === false) {
-    return input[row - 1].charAt(col);
-  }
+  return (isFirstRow(row) === false) ? input[row - 1].charAt(col) : null;
 };
 
 const sTile = (row, col, input) => {
-  if (isLastRow(row, input) === false) {
-    return input[row + 1].charAt(col);
-  }
+  return (isLastRow(row, input) === false) ? input[row + 1].charAt(col) : null;
 };
 
 const nwTile = (row, col, input) => {
-  if (isFirstColumn(col) === false && isFirstRow(row) === false) {
-    return input[row - 1].charAt(col - 1);
-  }
+  return (isFirstColumn(col) === false && isFirstRow(row) === false) ? input[row - 1].charAt(col - 1) : null;
 };
 
 const swTile = (row, col, input) => {
-  if (isFirstColumn(col) === false && isLastRow(row, input) === false) {
-    return input[row + 1].charAt(col - 1);
-  }
+  return (isFirstColumn(col) === false && isLastRow(row, input) === false) ? input[row + 1].charAt(col - 1) : null;
 };
 
 const neTile = (row, col, input) => {
-  if (isLastColumn(col, input) === false && isFirstRow(row) === false) {
-    return input[row - 1].charAt(col + 1);
-  }
+  return (isLastColumn(col, input) === false && isFirstRow(row) === false) ? input[row - 1].charAt(col + 1) : null;
 };
 
 const seTile = (row, col, input) => {
-  if (isLastColumn(col, input) === false && isLastRow(row, input) === false) {
-    return input[row + 1].charAt(col + 1);
-  }
+  return (isLastColumn(col, input) === false && isLastRow(row, input) === false) ? input[row + 1].charAt(col + 1) : null;
 };
 
-const incrementMine = (value, numMines) => {
-  if (value === '*') {
-    numMines++;
-  }
-  return numMines;
-};
-
+const isMine = value => value === '*';
 
 const touchesNumberOfMines = (row, col, input) => {
-  let num = 0;
-  num = incrementMine(eTile(row, col, input), num);
-  num = incrementMine(wTile(row, col, input), num);
-  num = incrementMine(nTile(row, col, input), num);
-  num = incrementMine(sTile(row, col, input), num);
-  num = incrementMine(neTile(row, col, input), num);
-  num = incrementMine(nwTile(row, col, input), num);
-  num = incrementMine(seTile(row, col, input), num);
-  num = incrementMine(swTile(row, col, input), num);
+  const grid = [
+    eTile(row, col, input),
+    wTile(row, col, input),
+    nTile(row, col, input),
+    sTile(row, col, input),
+    neTile(row, col, input),
+    nwTile(row, col, input),
+    seTile(row, col, input),
+    swTile(row, col, input),
+  ];
 
-  return (num > 0) ? num : ' ';
+  const numMines = grid.reduce((acc, tile) => {
+    if (isMine(tile)) {
+      acc++;
+    }
+    return acc;
+  }, 0);
+
+  return (numMines > 0) ? numMines : ' ';
+};
+
+const numberOfMines = (value, i, j, input) => {
+  if (isEmptySpace(value) === true) {
+    return touchesNumberOfMines(i, j, input);
+  }
+  return value;
 };
 
 export const annotate = (input) => {
   const board = input.map((row, i) => {
-    const cols = row.split('').map((value, j) => {
-      if (isEmptySpace(value) === true) {
-        return touchesNumberOfMines(i, j, input);
-      }
-      return value;
-    });
-
+    const cols = row.split('').map((value, j) => numberOfMines(value, i, j, input));
     return cols.join('');
   });
 
