@@ -42,7 +42,7 @@ const numberOfMines = (value, row, col, input) => {
   if (isMine(value)) {
     return value;
   }
-
+  // empty space otherwise
   const grid = [
     eTile(row, col, input),
     wTile(row, col, input),
