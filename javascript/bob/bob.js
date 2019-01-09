@@ -29,9 +29,9 @@ export const hey = (message) => {
     isSilence(message), // 1
   ].map(item => {
     return (item === true) ? 1 : 0;
-  });
+  }).join('');
 
-  const messageResponse = parseInt(flags.join(''), 2);
+  const messageResponse = parseInt(flags, 2);
 
   switch (messageResponse) {
     case (1):
