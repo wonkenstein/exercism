@@ -23,26 +23,22 @@ const isAskingQuestion = (message) => {
 export const hey = (message) => {
   message = message.trim();
 
-  const flags = [
-    isAskingQuestion(message), // 4
-    isShouting(message), // 2
-    isSilence(message), // 1
-  ].map(item => {
-    return (item === true) ? 1 : 0;
-  });
+  let response = 'Whatever.';
 
-  const messageResponse = parseInt(flags.join(''), 2);
+  if (isSilence(message)) {
+    response = 'Fine. Be that way!';
+  } else {
+    const shouting = isShouting(message);
+    const askingQuestion = isAskingQuestion(message);
 
-  switch (messageResponse) {
-    case (1):
-      return 'Fine. Be that way!';
-    case (2):
-      return 'Whoa, chill out!';
-    case (4):
-      return 'Sure.';
-    case (6):
-      return "Calm down, I know what I'm doing!";
-    default:
-      return 'Whatever.';
+    if (shouting && askingQuestion) {
+      response = "Calm down, I know what I'm doing!";
+    } else if (shouting) {
+      response = 'Whoa, chill out!';
+    } else if (askingQuestion) {
+      response = 'Sure.';
+    }
   }
+
+  return response;
 };
