@@ -20,18 +20,22 @@ const isAskingQuestion = (message) => {
   return question.test(message);
 };
 
-export const hey = (message) => {
-  message = message.trim();
-
+const typeOfMessage = (message) => {
   const flags = [
     isAskingQuestion(message), // 4
     isShouting(message), // 2
     isSilence(message), // 1
-  ].map(item => {
+  ].map((item) => {
     return (item === true) ? 1 : 0;
   }).join('');
 
-  const messageResponse = parseInt(flags, 2);
+  return parseInt(flags, 2);
+};
+
+export const hey = (message) => {
+  message = message.trim();
+
+  const messageResponse = typeOfMessage(message);
 
   switch (messageResponse) {
     case (1):
