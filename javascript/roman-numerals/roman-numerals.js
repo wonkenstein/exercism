@@ -3,7 +3,7 @@
 // convenience to get you started writing code faster.
 //
 
-const addUnit = (unit, number) => {
+const appendRomanUnits = (unit, number) => {
   let results = ''
   for (let i = 0; i < number; i++) {
     results += unit
@@ -11,78 +11,87 @@ const addUnit = (unit, number) => {
   return results
 }
 
-const romanNumeralsUnder10 = (currentValue) => {
-  let dividendAndRemainder = getDividendAndRemainder(currentValue, 10)
-  let result
-
-  if (dividendAndRemainder.remainder === 9) {
-    result = 'IX'
-  } else if (dividendAndRemainder.remainder === 4) {
-    result = 'IV'
-  } else if (dividendAndRemainder.remainder > 4) {
-    result = 'V'
-    dividendAndRemainder = getDividendAndRemainder(currentValue, 5)
-    result += addUnit('I', dividendAndRemainder.remainder)
-  } else {
-    result = addUnit('I', dividendAndRemainder.remainder)
-  }
-
-  return result
-}
-
 const reduceValue = (value, reduceBy) => {
   return value - reduceBy
 }
 
-const romanNumerals = (value, romanUnit, decimalUnit) => {
-  let result
-  let currentValue = value
-  let dividendAndRemainder = getDividendAndRemainder(currentValue, decimalUnit)
-  result += addUnit(romanUnit, dividendAndRemainder.dividend)
+const convertToRomanNumeralUnits = (value, unit, romanNumeralValue, romanNumeralUnit) => {
+  const dividend = Math.floor(value / unit)
+  const currentRomanNumerals = appendRomanUnits(romanNumeralUnit, dividend)
+  const currentValue = reduceValue(value, dividend * unit)
 
-  currentValue = reduceValue(currentValue, dividendAndRemainder.dividend * decimalUnit)
-  if (currentValue > decimalUnit - 11) {
-    result += addUnit(`X${romainUnit}`, 1)
-  } else {
-    result += addUnit(romanUnit, dividendAndRemainder.dividend)
+  return {
+    value: currentValue,
+    romanNumerals: `${romanNumeralValue}${currentRomanNumerals}`,
   }
-  return result
 }
 
 export const toRoman = (numberValue) => {
-  // throw new Error('Remove this statement and implement this function');
-  // console.log('numberValue % 10', numberValue % 10)
-  let currentValue = numberValue
-  let result = ''
-  let dividendAndRemainder
+  const romanNumeralUnits = [
+    {
+      romanNumeralUnit: 'M',
+      value: 1000,
+    },
+    {
+      romanNumeralUnit: 'CM',
+      value: 900,
+    },
+    {
+      romanNumeralUnit: 'D',
+      value: 500,
+    },
+    {
+      romanNumeralUnit: 'CD',
+      value: 400,
+    },
+    {
+      romanNumeralUnit: 'C',
+      value: 100,
+    },
+    {
+      romanNumeralUnit: 'XC',
+      value: 90,
+    },
+    {
+      romanNumeralUnit: 'L',
+      value: 50,
+    },
+    {
+      romanNumeralUnit: 'XL',
+      value: 40,
+    },
+    {
+      romanNumeralUnit: 'X',
+      value: 10,
+    },
+    {
+      romanNumeralUnit: 'IX',
+      value: 9,
+    },
+    {
+      romanNumeralUnit: 'V',
+      value: 5,
+    },
+    {
+      romanNumeralUnit: 'IV',
+      value: 4,
+    },
+    {
+      romanNumeralUnit: 'I',
+      value: 1,
+    },
+  ]
 
-  dividendAndRemainder = getDividendAndRemainder(currentValue, 50)
-  result += addUnit('L', dividendAndRemainder.dividend)
-
-  currentValue = reduceValue(currentValue, dividendAndRemainder.dividend * 50)
-  if (currentValue > 39) {
-    result += addUnit('XL', 1)
-    currentValue = reduceValue(currentValue, 40)
-
-    result += romanNumeralsUnder10(currentValue)
-  } else {
-    dividendAndRemainder = getDividendAndRemainder(currentValue, 10)
-    result += addUnit('X', dividendAndRemainder.dividend)
-
-    currentValue = reduceValue(currentValue, dividendAndRemainder.dividend * 10)
-    result += romanNumeralsUnder10(currentValue)
+  const initValue = {
+    value: numberValue, // keeps track of the number value as it reduces
+    romanNumerals: '' // keeps track of the roman numeral string
   }
 
-  return result
+  const result = romanNumeralUnits.reduce((acc, item) => {
+    acc = convertToRomanNumeralUnits(acc.value, item.value, acc.romanNumerals, item.romanNumeralUnit)
+    return acc
+  }, initValue)
+
+  return result.romanNumerals
 };
 
-const getDividendAndRemainder = (value, divideBy) => {
-
-  const dividend = Math.floor(value / divideBy)
-  const remainder = value % divideBy
-
-  return {
-    dividend,
-    remainder
-  }
-}
