@@ -4,3 +4,7 @@ So it downloads exercise to a different workspace and not /Users/markwong/Exerci
 ```
 exercism configure --workspace=/Users/markwong/workspace/github/exercism
 ```
+
+```
+exercism submit [name-of-file]
+```
