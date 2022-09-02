@@ -1,18 +1,11 @@
 
 
-interface BaseRobot {
-  // currentName: string,
-  // previousNames: string[],
-};
+let blah: any = {}
 
-
-
-export class Robot implements BaseRobot {
+export class Robot {
   private currentName: string
-  public static previousNames: string[] = []
 
   constructor() {
-    Robot.previousNames = []
     this.currentName = ''
     this.resetName()
   }
@@ -45,24 +38,21 @@ export class Robot implements BaseRobot {
 
 
   public get name(): string {
-    // throw new Error('Implement Robot#name')
     return this.currentName
   }
 
   public resetName(): void {
-    let newName = this.generateName()
+    let newName: string
 
-    if (Robot.previousNames.includes(newName)) {
-      console.log('resetName try again!', newName)
-      this.resetName()
-    } else {
-      // console.log('resetName!', newName)
-      this.currentName = newName
-      Robot.previousNames.push(this.currentName)
-    }
+    do {
+      newName = this.generateName()
+    } while (blah[newName] !== undefined)
+
+    this.currentName = newName
+    blah[newName] = 1
   }
 
   public static releaseNames(): void {
-    Robot.previousNames = []
+    blah = {}
   }
 }
