@@ -1,6 +1,45 @@
 
 
-let blah: any = {}
+let ROBOT_NAMES: any = {}
+let ROBOT_NAME_PREFIXES: any = {}
+
+const generateRobotName = (): string => {
+  const alpha: string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+  const numeric = '0123456789'
+  const NUM_ALPHA = 2
+  const NUM_NUMERIC = 3
+
+  const chars: string[] = []
+
+  for (let i = 0; i < NUM_ALPHA; i++) {
+    chars.push(randomise(alpha))
+  }
+  for (let i = 0; i < NUM_NUMERIC; i++) {
+    chars.push(randomise(numeric))
+  }
+
+  const nameCode = chars.join('')
+  return nameCode
+}
+
+const randomise = (dataSet: string): string => {
+  const max = dataSet.length
+  const randomIndex = Math.floor(Math.random() * max)
+  return dataSet[randomIndex]
+}
+
+const burnRobotName = (robotName: string): void => {
+  ROBOT_NAMES[robotName] = 1
+}
+
+const robotNameIsUsed = (robotName: string): boolean => {
+  return ROBOT_NAMES[robotName] !== undefined
+}
+
+const clearRobotNames = (): void => {
+  ROBOT_NAMES = {}
+  ROBOT_NAME_PREFIXES = {}
+}
 
 export class Robot {
   private currentName: string
@@ -10,33 +49,6 @@ export class Robot {
     this.resetName()
   }
 
-  private generateName(): string {
-    const alpha: string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    const numeric = '0123456789'
-    const NUM_ALPHA = 2
-    const NUM_NUMERIC = 3
-
-    const chars: string[] = []
-
-    for (let i = 0; i < NUM_ALPHA; i++) {
-      chars.push(this.randomise(alpha))
-    }
-    for (let i = 0; i < NUM_NUMERIC; i++) {
-      chars.push(this.randomise(numeric))
-    }
-
-    const nameCode = chars.join('')
-    return nameCode
-  }
-
-  private randomise(dataSet: string) {
-    const max = dataSet.length
-    const randomIndex = Math.floor(Math.random() * max)
-    return dataSet[randomIndex]
-  }
-
-
-
   public get name(): string {
     return this.currentName
   }
@@ -45,14 +57,14 @@ export class Robot {
     let newName: string
 
     do {
-      newName = this.generateName()
-    } while (blah[newName] !== undefined)
+      newName = generateRobotName()
+    } while (robotNameIsUsed(newName))
 
     this.currentName = newName
-    blah[newName] = 1
+    burnRobotName(newName)
   }
 
   public static releaseNames(): void {
-    blah = {}
+    clearRobotNames()
   }
 }
