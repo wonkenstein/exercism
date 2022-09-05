@@ -139,10 +139,7 @@ describe('Robot', () => {
       usedNames.add(newRobot.name)
     }
 
-
-    // expect(usedNames.size).toEqual(TOTAL_NUMBER_OF_NAMES)
-    console.log(usedNames.size, TOTAL_NUMBER_OF_NAMES, i)
-    console.log(Robot.previousNames)
-
+    expect(usedNames.size).toEqual(TOTAL_NUMBER_OF_NAMES)
+    // console.log(usedNames.size, TOTAL_NUMBER_OF_NAMES, i)
   })
 })
