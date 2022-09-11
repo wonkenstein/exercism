@@ -1,7 +1,5 @@
-def is_leap_year(year):
-    # pass
+def leap_year(year):
     divisible_by_4 = (year % 4 == 0)
-
     if (divisible_by_4):
         divisible_by_100 = (year % 100 == 0)
         divisible_by_400 = (year % 400 == 0)
