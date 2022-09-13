@@ -12,7 +12,8 @@ def add_prefix_un(word):
 
 
 def make_word_groups(vocab_words):
-    """Transform a list containing a prefix and words into a string with the prefix followed by the words with prefix prepended.
+    """Transform a list containing a prefix and words into a string with the prefix
+    followed by the words with prefix prepended.
 
     :param vocab_words: list - of vocabulary words with prefix in first index.
     :return: str - of prefix followed by vocabulary words with
@@ -29,8 +30,8 @@ def make_word_groups(vocab_words):
     prefix = vocab_words[0]
     result = [prefix]
 
-    for i in range(1, len(vocab_words)):
-        result.append(prefix + vocab_words[i])
+    for index in range(1, len(vocab_words)):
+        result.append(prefix + vocab_words[index])
 
     return ' :: '.join(result)
 
@@ -44,11 +45,11 @@ def remove_suffix_ness(word):
     For example: "heaviness" becomes "heavy", but "sadness" becomes "sad".
     """
 
-    def replace_last(currentWord, toFind, toReplace):
-        index = currentWord.rfind(toFind)
-        if (index == len(currentWord) - len(toFind)):
-            return currentWord.replace(toFind, toReplace)
-        return currentWord
+    def replace_last(current_word, to_find, to_replace):
+        index = current_word.rfind(to_find)
+        if index == len(current_word) - len(to_find):
+            return current_word.replace(to_find, to_replace)
+        return current_word
 
     result = word
     result = replace_last(result, 'iness', 'y')
@@ -69,8 +70,8 @@ def adjective_to_verb(sentence, index):
     words = sentence.split(' ')
     word = words[index]
 
-    hasFullStop = (word[len(word)-1] == '.')
-    if (hasFullStop):
+    has_full_stop = (word[len(word)-1] == '.')
+    if has_full_stop:
         word = word.strip('.')
     word += 'en'
     return word
