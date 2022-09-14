@@ -11,7 +11,7 @@ def get_rounds(number):
     :return: list - current round and the two that follow.
     """
 
-    pass
+    return [number, number+1, number+2]
 
 
 def concatenate_rounds(rounds_1, rounds_2):
@@ -22,7 +22,7 @@ def concatenate_rounds(rounds_1, rounds_2):
     :return: list - all rounds played.
     """
 
-    pass
+    return rounds_1 + rounds_2
 
 
 def list_contains_round(rounds, number):
@@ -33,7 +33,7 @@ def list_contains_round(rounds, number):
     :return: bool - was the round played?
     """
 
-    pass
+    return number in rounds
 
 
 def card_average(hand):
@@ -42,28 +42,50 @@ def card_average(hand):
     :param hand: list - cards in hand.
     :return: float - average value of the cards in the hand.
     """
+    total = 0
+    for cards in hand:
+        total += cards
 
-    pass
+    return total / len(hand)
 
 
 def approx_average_is_average(hand):
-    """Return if an average is using (first + last index values ) OR ('middle' card) == calculated average.
+    """Return if an average is using (first + last index values )
+    OR ('middle' card) == calculated average.
 
     :param hand: list - cards in hand.
     :return: bool - does one of the approximate averages equal the `true average`?
     """
 
-    pass
+    approx_average = (hand[0] + hand[-1]) / 2
+    average = card_average(hand)
+    middle_index = divmod(len(hand),  2)
+
+    # return (hand[middle_index[0]] == average or approx_average == average)
+    return average in (hand[middle_index[0]], approx_average)
 
 
 def average_even_is_average_odd(hand):
-    """Return if the (average of even indexed card values) == (average of odd indexed card values).
+    """Return if the (average of even indexed card values) ==
+        (average of odd indexed card values).
 
     :param hand: list - cards in hand.
     :return: bool - are even and odd averages equal?
     """
 
-    pass
+    # odd_total = 0
+    # odd_count = 0
+    # even_total = 0
+    # even_count = 0
+    # for index, val in enumerate(hand):
+    #     if index % 2 == 0:
+    #         even_count += 1
+    #         even_total += val
+    #     else:
+    #         odd_count += 1
+    #         odd_total += val
+    # return odd_total / odd_count == even_total / even_count
+    return card_average(hand[0::2]) == card_average(hand[1::2])
 
 
 def maybe_double_last(hand):
@@ -73,4 +95,7 @@ def maybe_double_last(hand):
     :return: list - hand with Jacks (if present) value doubled.
     """
 
-    pass
+    if hand[-1] == 11:
+        hand[-1] = hand[-1] * 2
+
+    return hand
