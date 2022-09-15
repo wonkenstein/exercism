@@ -1,4 +1,8 @@
 """Functions for organizing and calculating student exam scores."""
+from math import ceil
+
+
+PASS_MARK = 41
 
 
 def round_scores(student_scores):
@@ -7,8 +11,10 @@ def round_scores(student_scores):
     :param student_scores: list - float or int of student exam scores.
     :return: list - student scores *rounded* to nearest integer value.
     """
+    def round_score(score):
+        return round(score)
 
-    pass
+    return map(round_score, student_scores)
 
 
 def count_failed_students(student_scores):
@@ -17,19 +23,29 @@ def count_failed_students(student_scores):
     :param student_scores: list - containing int student scores.
     :return: int - count of student scores at or below 40.
     """
+    failed = 0
+    for score in student_scores:
+        if score < PASS_MARK:
+            failed += 1
 
-    pass
+    return failed
 
 
 def above_threshold(student_scores, threshold):
-    """Determine how many of the provided student scores were 'the best' based on the provided threshold.
+    """Determine how many of the provided student scores were 'the best'
+    based on the provided threshold.
 
     :param student_scores: list - of integer scores.
     :param threshold: int - threshold to cross to be the "best" score.
     :return: list - of integer scores that are at or above the "best" threshold.
     """
 
-    pass
+    scores_above_threshold = []
+    for score in student_scores:
+        if score >= threshold:
+            scores_above_threshold.append(score)
+
+    return scores_above_threshold
 
 
 def letter_grades(highest):
@@ -45,8 +61,19 @@ def letter_grades(highest):
             71 <= "B" <= 85
             86 <= "A" <= 100
     """
+    delta = highest - PASS_MARK
+    num_steps = 5
+    num_bands = num_steps - 1
+    grade_steps = delta / num_bands
 
-    pass
+    grades = []
+    steps = PASS_MARK
+
+    for index in range(num_bands):
+        grades.append(ceil(steps))
+        steps += grade_steps
+
+    return grades
 
 
 def student_ranking(student_scores, student_names):
@@ -57,14 +84,27 @@ def student_ranking(student_scores, student_names):
     :return: list - of strings in format ["<rank>. <student name>: <score>"].
     """
 
-    pass
+    rankings = []
+    for index, score in enumerate(student_scores):
+        student_name = student_names[index]
+        rankings.append(str(index+1) + '. ' + student_name + ': ' + str(score))
+
+    return rankings
 
 
 def perfect_score(student_info):
-    """Create a list that contains the name and grade of the first student to make a perfect score on the exam.
+    """Create a list that contains the name and grade of the first student to
+    make a perfect score on the exam.
 
     :param student_info: list - of [<student name>, <score>] lists.
-    :return: list - first `[<student name>, 100]` or `[]` if no student score of 100 is found.
+    :return: list - first `[<student name>, 100]` or `[]` if no student score of
+    100 is found.
     """
+    threshold_score = 100
+    for student in student_info:
+        student_score = student[1]
 
-    pass
+        if student_score >= threshold_score:
+            return student
+
+    return []
