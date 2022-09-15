@@ -62,16 +62,14 @@ def letter_grades(highest):
             86 <= "A" <= 100
     """
     delta = highest - PASS_MARK
-    num_steps = 5
-    num_bands = num_steps - 1
+    num_bands = 4
     grade_steps = delta / num_bands
 
     grades = []
-    steps = PASS_MARK
 
     for index in range(num_bands):
-        grades.append(ceil(steps))
-        steps += grade_steps
+        step = index * grade_steps + PASS_MARK
+        grades.append(ceil(step))
 
     return grades
 
