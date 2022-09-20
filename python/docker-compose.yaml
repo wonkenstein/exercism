@@ -2,8 +2,14 @@ version: "3.9"
 services:
   python:
     tty: true # Enables debugging capabilities when attached to this container.
-    image: python:3
+    # image: python:3
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: exercism_python
+    # command: sh -c "python -m pip install pytest pytest-cache pytest-subtests pytest-pylint"
+    # command: sh -c "echo "baeldung" && echo "docker" "
+    # command: echo "I'm running fashjklfsa"
     volumes:
       - '.:/usr/src/app'
 # docker compose --verbose up -d
