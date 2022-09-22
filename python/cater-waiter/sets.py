@@ -143,8 +143,9 @@ def singleton_ingredients(dishes, intersection):
     The function should return a `set` of ingredients that only appear in a single dish.
     """
 
-    pass
+    all_ingredients = set()
+    for ingredients in dishes:
+        all_ingredients = all_ingredients.union(ingredients)
 
-
-compile_ingredients([{'yellow onion', 'bulgur', 'pomegranate molasses', 'chopped parsley', 'lemon juice', 'tomato', 'persian cucumber', 'tomato paste', 'spring onion', 'water', 'olive oil'},
-                     {'vegan unsweetened yoghurt', 'yellow onion', 'firm tofu', 'smoked paprika', 'tomatoes', 'tomato paste', 'sugar', 'cloves', 'cumin', "za'atar", 'olive oil', 'harissa', 'red bell pepper'}])
+    result = all_ingredients.symmetric_difference(intersection)
+    return result
