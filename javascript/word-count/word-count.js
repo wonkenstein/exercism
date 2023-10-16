@@ -24,14 +24,14 @@ export const countWords = (input) => {
   const words = splitIntoWords(cleaned);
 
   const results = {};
-  for (let i = 0; i < words.length; i++) {
-    const word = words[i];
+
+  words.forEach((word) => {
     if (results[word] === undefined) {
       results[word] = 1;
     } else {
       results[word]++;
     }
-  }
+  });
 
   return results;
 };
