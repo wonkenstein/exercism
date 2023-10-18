@@ -39,8 +39,8 @@ export function limesToCut(wedgesNeeded, limes) {
   let numWedges = 0;
   let limesCut = 0;
 
-  while (limesCut < limes.length && numWedges < wedgesNeeded) {
-    const lime = limes[limesCut];
+  while (limes.length && numWedges < wedgesNeeded) {
+    const lime = limes.shift();
     if (lime === "small") {
       numWedges += 6;
     } else if (lime === "medium") {
