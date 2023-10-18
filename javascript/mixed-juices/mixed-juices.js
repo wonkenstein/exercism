@@ -39,8 +39,8 @@ export function limesToCut(wedgesNeeded, limes) {
   let numWedges = 0;
   let limesCut = 0;
 
-  while (limes.length && numWedges < wedgesNeeded) {
-    const lime = limes.shift();
+  while (limesCut < limes.length && numWedges < wedgesNeeded) {
+    const lime = limes[limesCut];
     if (lime === "small") {
       numWedges += 6;
     } else if (lime === "medium") {
@@ -63,12 +63,14 @@ export function limesToCut(wedgesNeeded, limes) {
  * @returns {string[]} remaining orders after the time is up
  */
 export function remainingOrders(timeLeft, orders) {
+  let i = 0;
   do {
-    const order = orders.shift();
+    const order = orders[i];
     const timeTaken = timeToMixJuice(order);
 
     timeLeft -= timeTaken;
-  } while (orders.length && timeLeft > 0);
+    i++;
+  } while (i < orders.length && timeLeft > 0);
 
-  return orders;
+  return orders.slice(i);
 }
