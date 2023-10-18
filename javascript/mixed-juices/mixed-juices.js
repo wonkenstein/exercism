@@ -14,19 +14,14 @@ export function timeToMixJuice(name) {
   switch (name) {
     case "Pure Strawberry Joy":
       return 0.5;
-      break;
     case "Energizer":
       return 1.5;
-      break;
     case "Green Garden":
       return 1.5;
-      break;
     case "Tropical Island":
       return 3;
-      break;
     case "All or Nothing":
       return 5;
-      break;
     default:
       return 2.5;
   }
@@ -44,11 +39,7 @@ export function limesToCut(wedgesNeeded, limes) {
   let numWedges = 0;
   let limesCut = 0;
 
-  while (limesCut < limes.length) {
-    if (numWedges >= wedgesNeeded) {
-      break;
-    }
-
+  while (limesCut < limes.length && numWedges < wedgesNeeded) {
     const lime = limes[limesCut];
     if (lime === "small") {
       numWedges += 6;
@@ -73,15 +64,11 @@ export function limesToCut(wedgesNeeded, limes) {
  */
 export function remainingOrders(timeLeft, orders) {
   do {
-    const timeTaken = timeToMixJuice(orders[0]);
+    const order = orders.shift();
+    const timeTaken = timeToMixJuice(order);
 
-    orders.shift();
     timeLeft -= timeTaken;
-
-    if (timeLeft <= 0) {
-      break;
-    }
-  } while (orders.length);
+  } while (orders.length && timeLeft > 0);
 
   return orders;
 }
