@@ -20,17 +20,19 @@ export function twoSum(array1, array2) {
  * @returns {boolean} whether the number is a palindrome or not
  */
 export function luckyNumber(value) {
-  const numbers = String(value).split("");
-  const length = numbers.length;
+  return String(value) === [...String(value)].reverse().join("");
 
-  for (let i = 0; i < length / 2; i++) {
-    const start = numbers[i];
-    const end = numbers[length - 1 - i];
-    if (start !== end) {
-      return false;
-    }
-  }
-  return true;
+  // const numbers = String(value).split("");
+  // const length = numbers.length;
+
+  // for (let i = 0; i < length / 2; i++) {
+  //   const start = numbers[i];
+  //   const end = numbers[length - 1 - i];
+  //   if (start !== end) {
+  //     return false;
+  //   }
+  // }
+  // return true;
 }
 
 /**
@@ -42,7 +44,7 @@ export function luckyNumber(value) {
  */
 export function errorMessage(input) {
   const numberInput = Number(input);
-  console.log("[", input, "]==[", numberInput);
+  // console.log("[", input, "]==[", numberInput);
   if (!input) {
     return "Required field";
   } else if (isNaN(numberInput) || numberInput === 0) {
