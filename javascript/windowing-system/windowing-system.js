@@ -49,25 +49,24 @@ export class ProgramWindow {
   }
 
   resize(newSize) {
+    const maxWidth = this.screenSize.width - this.position.x;
+    const maxHeight = this.screenSize.height - this.position.y;
+
+    let width = newSize.width;
+    if (width > maxWidth) {
+      width = maxWidth;
+    }
+
+    let height = newSize.height;
+    if (height > maxHeight) {
+      height = maxHeight;
+    }
+
+    if (width !== newSize.width || height !== newSize.height) {
+      newSize = new Size(width, height);
+    }
+
     this.size = newSize;
-    // const maxWidth = this.screenSize.width - this.position.x;
-    // const maxHeight = this.screenSize.width - this.position.y;
-
-    // let width = this.position.x;
-    // if (width > maxWidth) {
-    //   width = maxWidth;
-    // }
-
-    // let height = this.position.y;
-    // if (height > maxHeight) {
-    //   height = maxHeight;
-    // }
-
-    // if (width !== newSize.width || height !== newSize.height) {
-    //   newSize = new Size(width, height);
-    // }
-
-    // this.size = newSize;
   }
 
   move(newPosition) {

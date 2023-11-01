@@ -124,7 +124,7 @@ describe("move", () => {
     expect(programWindow.position.y).toBe(500);
   });
 
-  xtest("resize respects limits due to position and screen size", () => {
+  test("resize respects limits due to position and screen size", () => {
     const programWindow = new ProgramWindow();
     const newPosition = new Position(710, 525);
     programWindow.move(newPosition);
